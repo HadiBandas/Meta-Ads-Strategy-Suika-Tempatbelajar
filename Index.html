@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dasbor Strategi Iklan: Shop at Suika</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Suika Serenity -->
+    <!-- Application Structure Plan: The application is designed as an interactive single-page dashboard. This structure transforms the linear report into an explorable, non-linear experience. A top navigation bar allows users to instantly access key strategic components: Summary, Budget, Content, Audience, KPIs, and Recommendations. This task-oriented design is more usable and engaging than a static document, allowing stakeholders (like the brand owner) to quickly grasp the plan's facets through visual aids like charts, diagrams, and cards, facilitating better understanding and decision-making. -->
+    <!-- Visualization & Content Choices: The dashboard uses specific visualizations for clarity. Budget Allocation (Report Info) -> Donut Chart (Viz Method) -> Goal: Compare proportions instantly -> Interaction: Hover for details. Campaign Timeline -> Visual Diagram (HTML/CSS) -> Goal: Organize time -> Justification: More intuitive than text. Content Pillars & KPIs -> Card Grids -> Goal: Organize info -> Justification: Improves scannability. Audience Strategy -> Flowchart Diagram (HTML/CSS) -> Goal: Visualize process -> Justification: Clarifies the phased approach. All choices use Chart.js or structured HTML/CSS, adhering to the NO SVG/Mermaid rule. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FEF2F2; /* red-50 */
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .nav-link.active {
+            color: #16A34A; /* green-600 */
+            border-bottom: 2px solid #16A34A; /* green-600 */
+        }
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 640px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .kpi-card::before {
+            content: var(--icon);
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+        
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Dasbor Strategi Iklan</h1>
+            <p class="text-lg text-red-500 font-semibold mt-1">Shop at Suika</p>
+            <p class="mt-2 text-gray-600 max-w-3xl mx-auto">Selamat datang di dasbor interaktif yang merangkum rencana kampanye Meta Ads selama 3 minggu untuk Shop at Suika.</p>
+        </header>
+
+        <nav class="bg-white/70 backdrop-blur-md rounded-xl shadow-md p-4 sticky top-4 z-10 mb-8">
+            <ul class="flex flex-wrap justify-center items-center gap-4 md:gap-8 text-sm md:text-base font-medium text-gray-600">
+                <li><a class="nav-link active" data-target="ringkasan">Ringkasan</a></li>
+                <li><a class="nav-link" data-target="anggaran">Anggaran & Jadwal</a></li>
+                <li><a class="nav-link" data-target="konten">Strategi Konten</a></li>
+                <li><a class="nav-link" data-target="audiens">Target Audiens</a></li>
+                <li><a class="nav-link" data-target="kpi">Metrik & KPI</a></li>
+                <li><a class="nav-link" data-target="rekomendasi">Rekomendasi</a></li>
+            </ul>
+        </nav>
+
+        <main id="main-content">
+            <section id="ringkasan" class="content-section active">
+                <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-2xl font-bold mb-4 text-green-700">Ringkasan Strategi</h2>
+                    <p class="mb-6 text-gray-600">Bagian ini memberikan gambaran umum mengenai fondasi strategi kampanye, mencakup esensi merek, tujuan utama, serta tantangan yang dihadapi. Tujuannya adalah menyelaraskan pemahaman sebelum masuk ke detail teknis.</p>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-red-50 p-6 rounded-lg">
+                            <h3 class="font-bold text-lg mb-2 text-red-800">Identitas Brand</h3>
+                            <p class="text-sm text-gray-700">Shop at Suika adalah merek sepatu/sandal wanita muda yang terinspirasi dari elemen semangka & Jepang. Mengusung nilai tambah "Support Palestine" dan mendukung UMKM lokal di Bogor.</p>
+                        </div>
+                        <div class="bg-green-50 p-6 rounded-lg">
+                            <h3 class="font-bold text-lg mb-2 text-green-800">Tujuan Utama Kampanye</h3>
+                            <p class="text-sm text-gray-700">Fokus utama adalah membangun **Awareness** (kesadaran merek) dan **Engagement** (interaksi) dengan audiens. Penjualan adalah tujuan jangka panjang, bukan fokus kampanye awal ini.</p>
+                        </div>
+                        <div class="bg-yellow-50 p-6 rounded-lg">
+                            <h3 class="font-bold text-lg mb-2 text-yellow-800">Tantangan Utama</h3>
+                            <p class="text-sm text-gray-700">Anggaran yang sangat terbatas (Rp 140rb untuk Meta Ads) dan ketidakmampuan memasang Meta Pixel di Shopee menjadi tantangan utama dalam melacak konversi penjualan secara akurat.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="anggaran" class="content-section">
+                <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                     <h2 class="text-2xl font-bold mb-4 text-green-700">Alokasi Anggaran & Jadwal Kampanye</h2>
+                     <p class="mb-8 text-gray-600">Bagian ini memvisualisasikan pembagian total anggaran digital marketing dan linimasa kampanye selama 3 minggu. Visualisasi ini membantu memahami porsi setiap kanal dan kapan iklan Meta akan aktif.</p>
+                     <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-xl font-semibold text-center mb-4">Alokasi Total Anggaran (Rp 400.000)</h3>
+                            <div class="chart-container">
+                                <canvas id="budgetChart"></canvas>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-center mb-4">Jadwal Kampanye 3 Minggu</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-4 bg-gray-100 p-4 rounded-lg">
+                                    <span class="font-bold text-gray-500 w-20">Minggu 1</span>
+                                    <div class="w-full bg-gray-200 rounded-full h-6 flex items-center">
+                                         <div class="bg-green-300 text-sm font-medium text-green-800 text-center p-1 leading-none rounded-full w-full">Organik: Bangun Engagement & Social Proof</div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-2 bg-red-50 p-4 rounded-lg border-2 border-red-300 relative">
+                                    <span class="font-bold text-red-800 w-20">Minggu 2</span>
+                                    <div class="absolute -top-6 -right-2 text-sm bg-red-600 text-white px-2 py-0.5 rounded-md text-center">FOKUS</div>
+                                    <div class="w-full bg-red-200 rounded-full h-6 flex items-center">
+                                        <div class="bg-red-400 text-sm font-medium text-red-900 text-center p-1 leading-none rounded-full w-full">Meta Ads Aktif: Retargeting Audiens Interaksi → Traffic</div>
+                                    </div>
+                                    <p class="text-sm text-gray-700 mt-2 text-center">Fokus pada menargetkan ulang audiens yang telah berinteraksi dengan konten organik di minggu pertama. Tujuannya adalah mengarahkan interaksi tersebut menjadi kunjungan traffic ke Shopee atau profil.</p>
+                                </div>
+                                <div class="flex flex-col gap-2 bg-red-50 p-4 rounded-lg border-2 border-red-300 relative">
+                                    <span class="font-bold text-red-800 w-20">Minggu 3</span>
+                                    <div class="w-full bg-red-200 rounded-full h-6 flex items-center">
+                                         <div class="bg-red-400 text-sm font-medium text-red-900 text-center p-1 leading-none rounded-full w-full">Meta Ads Aktif: Lookalike Audiens → Ekspansi Audiens Baru</div>
+                                    </div>
+                                    <p class="text-sm text-gray-700 mt-2 text-center">Fokus pada ekspansi audiens dengan menargetkan Lookalike Audience dari audiens yang berinteraksi. Tujuannya adalah menjangkau orang baru yang memiliki karakteristik serupa dengan audiens berkualitas Anda.</p>
+                                </div>
+                                <p class="text-sm text-center text-gray-500 mt-2">Iklan Meta akan dijalankan selama 2 minggu (di minggu ke-2 dan ke-3) dengan strategi penargetan yang berbeda untuk memaksimalkan hasil dari anggaran terbatas.</p>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+            </section>
+
+            <section id="konten" class="content-section">
+                 <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-2xl font-bold mb-4 text-green-700">Pilar Strategi Konten</h2>
+                    <p class="mb-8 text-gray-600 max-w-4xl mx-auto text-center">Fokus utama adalah konten video pendek (gaya Reels/TikTok) yang dinamis dan informatif. Berikut adalah 4 pilar konten yang dirancang untuk menjawab kebutuhan audiens dan menonjolkan keunikan Shop at Suika.</p>
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="border border-green-200 bg-green-50 rounded-lg p-6 text-center transform hover:scale-105 hover:shadow-xl transition-transform duration-300">
+                            <div class="text-4xl mb-3">👟</div>
+                            <h3 class="font-bold text-lg mb-2 text-green-800">Kenyamanan Harian</h3>
+                            <p class="text-sm text-gray-700">Video yang menunjukkan produk nyaman dipakai dalam berbagai aktivitas sehari-hari untuk membuktikan klaim kenyamanan.</p>
+                        </div>
+                        <div class="border border-red-200 bg-red-50 rounded-lg p-6 text-center transform hover:scale-105 hover:shadow-xl transition-transform duration-300">
+                            <div class="text-4xl mb-3">👗</div>
+                            <h3 class="font-bold text-lg mb-2 text-red-800">Gaya & Styling Tips</h3>
+                            <p class="text-sm text-gray-700">Konten "Mix & Match" yang memberikan inspirasi padu padan produk Suika dengan berbagai gaya pakaian.</p>
+                        </div>
+                        <div class="border border-yellow-200 bg-yellow-50 rounded-lg p-6 text-center transform hover:scale-105 hover:shadow-xl transition-transform duration-300">
+                             <div class="text-4xl mb-3">🇮🇩</div>
+                            <h3 class="font-bold text-lg mb-2 text-yellow-800">Local Pride & UMKM</h3>
+                            <p class="text-sm text-gray-700">Kisah di balik layar proses produksi oleh pengrajin lokal untuk membangun koneksi emosional dan kebanggaan.</p>
+                        </div>
+                        <div class="border border-blue-200 bg-blue-50 rounded-lg p-6 text-center transform hover:scale-105 hover:shadow-xl transition-transform duration-300">
+                             <div class="text-4xl mb-3">🌟</div>
+                            <h3 class="font-bold text-lg mb-2 text-blue-800">Ulasan Pengguna (UGC)</h3>
+                            <p class="text-sm text-gray-700">Mendorong testimoni dan ulasan video otentik dari pengguna untuk membangun kepercayaan dan bukti sosial.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="audiens" class="content-section">
+                <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-2xl font-bold mb-4 text-green-700">Strategi Penargetan Audiens</h2>
+                    <p class="mb-8 text-gray-600">Pendekatan penargetan audiens dilakukan secara bertahap untuk memaksimalkan efisiensi anggaran. Dimulai dari membangun interaksi awal, kemudian menargetkan ulang mereka yang sudah menunjukkan minat.</p>
+                    <div class="grid lg:grid-cols-2 gap-8 items-start">
+                        <div class="bg-gray-50 rounded-lg p-6 border">
+                            <h3 class="font-semibold text-xl mb-4 text-center">Persona Target Audiens</h3>
+                            <div class="text-center mb-4">
+                                <div class="mx-auto bg-red-200 rounded-full h-24 w-24 flex items-center justify-center text-5xl">
+                                    👩‍🎓
+                                </div>
+                            </div>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-center"><span class="font-bold w-28">Demografi:</span><span>Wanita Muda (18-30 thn)</span></li>
+                                <li class="flex items-center"><span class="font-bold w-28">Status:</span><span>Pelajar, Mahasiswa, Ibu Muda, Karyawan</span></li>
+                                <li class="flex items-center"><span class="font-bold w-28">Lokasi:</span><span>JABODETABEK</span></li>
+                                <li class="flex items-center"><span class="font-bold w-28">Minat:</span><span>Fashion, Sepatu, Gaya Hidup, UMKM, Belanja Online</span></li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-lg p-6 border">
+                            <h3 class="font-semibold text-xl mb-4 text-center">Alur Penargetan Bertahap</h3>
+                            <div class="flex flex-col items-center gap-4">
+                                <div class="bg-blue-100 border-2 border-blue-300 border-dashed p-4 rounded-lg text-center w-full">
+                                    <p class="font-bold text-blue-800">Tahap 1: Minggu ke-1 (Organik)</p>
+                                    <p class="text-sm text-blue-700">Fokus pada konten organik viral untuk mengumpulkan audiens yang berinteraksi (views, likes, comments).</p>
+                                </div>
+                                <div class="text-3xl text-gray-400">👇</div>
+                                <div class="bg-green-100 border-2 border-green-300 border-dashed p-4 rounded-lg text-center w-full">
+                                    <p class="font-bold text-green-800">Tahap 2: Minggu ke-2 (Iklan Berbayar)</p>
+                                    <p class="text-sm text-green-700">Menjalankan iklan dengan menargetkan:<br>
+                                    - **Custom Audience:** Orang yang sudah berinteraksi.<br>
+                                    - **Lookalike Audience:** Orang yang mirip dengan audiens yang berinteraksi.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="kpi" class="content-section">
+                 <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-2xl font-bold mb-4 text-green-700">Metrik & Indikator Kinerja Utama (KPI)</h2>
+                    <p class="mb-8 text-gray-600">Keberhasilan kampanye akan diukur berdasarkan metrik-metrik berikut, yang selaras dengan tujuan utama yaitu Awareness dan Engagement. Pelacakan penjualan akan dilakukan secara manual melalui Shopee Seller Centre.</p>
+                    
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-5">
+                            <h3 class="text-lg font-bold text-blue-800 mb-3">📊 Awareness</h3>
+                            <ul class="space-y-2 text-sm text-gray-700">
+                                <li><strong>Impressions:</strong> Total iklan ditampilkan</li>
+                                <li><strong>Reach:</strong> Jumlah orang unik yang dijangkau</li>
+                                <li><strong>CPM:</strong> Biaya per 1.000 tayangan</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-5">
+                            <h3 class="text-lg font-bold text-green-800 mb-3">❤️ Engagement</h3>
+                            <ul class="space-y-2 text-sm text-gray-700">
+                                <li><strong>Video Views:</strong> Jumlah penayangan video</li>
+                                <li><strong>Engagement Rate:</strong> Likes, comments, shares, saves</li>
+                                <li><strong>CTR (Click-Through Rate):</string> Persentase klik</li>
+                            </ul>
+                        </div>
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-5">
+                            <h3 class="text-lg font-bold text-yellow-800 mb-3">📈 Growth (Manual)</h3>
+                            <ul class="space-y-2 text-sm text-gray-700">
+                                <li><strong>Follower Growth:</strong> Pertumbuhan pengikut IG/TikTok</li>
+                                <li><strong>Shopee Store Visits:</strong> Kunjungan ke toko Shopee</li>
+                                <li><strong>Penjualan:</strong> Data dari Shopee Seller Centre</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-r-lg">
+                        <p class="font-bold">Peringatan Keterbatasan Pelacakan</p>
+                        <p class="text-sm">Karena Meta Pixel tidak bisa dipasang di Shopee, pelacakan konversi penjualan dari dasbor Meta Ads tidak akan akurat. Keberhasilan penjualan harus diukur dengan membandingkan data penjualan di Shopee Seller Centre sebelum dan sesudah kampanye.</p>
+                    </div>
+                 </div>
+            </section>
+            
+            <section id="rekomendasi" class="content-section">
+                <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-2xl font-bold mb-4 text-green-700">Rekomendasi & Langkah Selanjutnya</h2>
+                    <p class="mb-8 text-gray-600">Kampanye ini adalah langkah awal. Untuk pertumbuhan jangka panjang yang berkelanjutan, pertimbangkan rekomendasi strategis berikut.</p>
+                    <div class="space-y-4">
+                        <details class="group bg-gray-50 p-4 rounded-lg cursor-pointer">
+                            <summary class="font-semibold text-lg flex justify-between items-center">
+                                Bangun Landing Page Sendiri
+                                <span class="text-green-600 group-open:rotate-90 transition-transform duration-300">▶</span>
+                            </summary>
+                            <p class="mt-2 text-gray-600 text-sm">Ini adalah prioritas tertinggi untuk jangka panjang. Memiliki website sendiri memungkinkan pemasangan Meta Pixel secara penuh, pelacakan konversi akurat, dan optimasi iklan yang jauh lebih efektif.</p>
+                        </details>
+                        <details class="group bg-gray-50 p-4 rounded-lg cursor-pointer">
+                            <summary class="font-semibold text-lg flex justify-between items-center">
+                                Jaga Konsistensi Konten Organik
+                                <span class="text-green-600 group-open:rotate-90 transition-transform duration-300">▶</span>
+                            </summary>
+                            <p class="mt-2 text-gray-600 text-sm">Iklan berbayar hanya akselerator. Terus kembangkan konten *storytelling* dan informatif di Instagram & TikTok untuk membangun audiens setia dan mengurangi ketergantungan pada iklan.</p>
+                        </details>
+                        <details class="group bg-gray-50 p-4 rounded-lg cursor-pointer">
+                            <summary class="font-semibold text-lg flex justify-between items-center">
+                                Tingkatkan Anggaran Secara Bertahap
+                                <span class="text-green-600 group-open:rotate-90 transition-transform duration-300">▶</span>
+                            </summary>
+                            <p class="mt-2 text-gray-600 text-sm">Jika hasil kampanye awal positif dan tujuan beralih ke penjualan, anggaran iklan perlu ditingkatkan secara signifikan untuk mencapai hasil yang lebih besar dan mengoptimalkan konversi.</p>
+                        </details>
+                         <details class="group bg-gray-50 p-4 rounded-lg cursor-pointer">
+                            <summary class="font-semibold text-lg flex justify-between items-center">
+                                Diversifikasi ke TikTok Ads
+                                 <span class="text-green-600 group-open:rotate-90 transition-transform duration-300">▶</span>
+                            </summary>
+                            <p class="mt-2 text-gray-600 text-sm">Mengingat relevansi format video pendek, eksplorasi TikTok Ads bisa menjadi langkah strategis berikutnya untuk menjangkau audiens yang lebih luas dan aktif di platform tersebut.</p>
+                        </details>
+                    </div>
+                </div>
+            </section>
+            <div class="text-center mt-12 text-gray-500 text-sm">
+                &copy; 2025 Mahasin Hadiyatulloh - Digital Marketing
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    const targetId = link.getAttribute('data-target');
+                    
+                    navLinks.forEach(navLink => {
+                        navLink.classList.remove('active');
+                    });
+                    
+                    contentSections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    link.classList.add('active');
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+
+            const ctx = document.getElementById('budgetChart').getContext('2d');
+            const budgetChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['TikTok Ads (40%)', 'Meta Ads (35%)', 'Shopee Ads (25%)'],
+                    datasets: [{
+                        label: 'Alokasi Anggaran',
+                        data: [160000, 140000, 100000],
+                        backgroundColor: [
+                            '#2DD4BF', // teal-400
+                            '#F87171', // red-400
+                            '#FB923C'  // orange-400
+                        ],
+                        borderColor: '#FEF2F2',
+                        borderWidth: 4,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: {
+                                    family: 'Inter',
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(context.parsed);
+                                    }
+                                    return label;
+                                }
+                            },
+                             bodyFont: {
+                                family: 'Inter'
+                            },
+                            titleFont: {
+                                family: 'Inter'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
